@@ -11,115 +11,265 @@
 };
 
 / {
-    macros {
-        To1_macro: To1_macro {
-            compatible = "zmk,behavior-macro";
-            label = "To1_macro";
-            #binding-cells = <0>;
-            bindings = <&rgb_ug RGB_EFF &rgb_ug RGB_COLOR_HSB(128,100,50) &to 1>;
-        };
 
-        To0_macro: To0_macro {
-            compatible = "zmk,behavior-macro";
-            label = "To0_macro";
+    behaviors {
+        td0: td0 {
+            compatible = "zmk,behavior-tap-dance";
+            display-name = "Shift/Caps Lock Tap Dance";
             #binding-cells = <0>;
-            bindings = <&rgb_ug RGB_EFR &to 0>;
-        };
+            bindings = <&sk LEFT_SHIFT>, <&kp CAPS>;
 
-        To2_macro: To2_macro {
-            compatible = "zmk,behavior-macro";
-            label = "To2_macro";
-            #binding-cells = <0>;
-            bindings =
-                <&to 0>,
-                <&macro_wait_time 30>,
-                <&rgb_ug RGB_COLOR_HSB(250,100,50)>;
+            label = "Shift + Caps";
         };
     };
+
+    combos {
+        compatible = "zmk,combos";
+
+        Zs {
+            timeout-ms = <50>;
+            bindings = <&kp RA(Z)>;
+            key-positions = <31 32>;
+            layers = <0>;
+        };
+
+        Xs {
+            timeout-ms = <50>;
+            bindings = <&kp PL_X>;
+            key-positions = <25 26>;
+            layers = <0>;
+        };
+
+        Cs {
+            timeout-ms = <50>;
+            bindings = <&kp PL_C>;
+            key-positions = <16 15>;
+            layers = <0>;
+        };
+
+        Ns {
+            timeout-ms = <50>;
+            bindings = <&kp PL_N>;
+            key-positions = <2 3>;
+            layers = <0>;
+        };
+
+        Ls {
+            timeout-ms = <50>;
+            bindings = <&kp PL_L>;
+            key-positions = <7 8>;
+            layers = <0>;
+        };
+
+        Es {
+            timeout-ms = <50>;
+            bindings = <&kp PL_E>;
+            key-positions = <21 22>;
+            layers = <0>;
+        };
+
+        Os {
+            timeout-ms = <50>;
+            bindings = <&kp PL_O>;
+            key-positions = <8 9>;
+            layers = <0>;
+        };
+
+        As {
+            timeout-ms = <50>;
+            bindings = <&kp PL_A>;
+            key-positions = <20 19>;
+            layers = <0>;
+        };
+
+        Ss {
+            timeout-ms = <50>;
+            bindings = <&kp PL_S>;
+            key-positions = <13 14>;
+            layers = <0>;
+        };
+
+        Gaming {
+            bindings = <&tog 4>;
+            key-positions = <13 14 15 16>;
+        };
+
+        config {
+            bindings = <&tog 5>;
+            key-positions = <19 21 22 20>;
+        };
+
+        lm {
+            bindings = <&mkp MB1>;
+            key-positions = <27 28>;
+        };
+
+        rm {
+            bindings = <&mkp MB2>;
+            key-positions = <27 26>;
+        };
+
+        mm {
+            bindings = <&mkp MB3>;
+            key-positions = <27 28 26>;
+        };
+    };
+
+    macros {
+        xlookup: xlookup {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp EQUAL &kp X &kp L &kp O &kp O &kp K &kp U &kp P &kp LPAR>;
+            label = "XLOOKUP";
+        };
+
+        sumifs: sumifs {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp EQUAL &kp S &kp U &kp M &kp I &kp F &kp S &kp LPAR>;
+            label = "SUMIFS";
+        };
+
+        left: left {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp EQUAL &kp L &kp E &kp F &kp T &kp LPAR>;
+            label = "LEFT";
+        };
+
+        mid: mid {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp EQUAL &kp M &kp I &kp D &kp LPAR>;
+            label = "MID";
+        };
+
+        copy: copy {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&sk LCTRL &kp C>;
+            label = "COPY";
+        };
+
+        paste: paste {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&sk LCTRL &kp V>;
+            label = "PASTE";
+        };
+
+        countif: countif {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp EQUAL &kp C &kp O &kp U &kp N &kp T &kp I &kp F &kp S &kp LPAR>;
+            label = "COUNTIF";
+        };
+
+        block: block {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <100>;
+            tap-ms = <50>;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL &kp LALT>,
+                <&macro_tap>,
+                <&kp DEL>,
+                <&macro_release>,
+                <&kp LCTRL &kp LALT>,
+                <&macro_wait_time 1000>,
+                <&macro_tap>,
+                <&kp TAB>,
+                <&macro_wait_time 100>,
+                <&macro_tap>,
+                <&kp UP &kp ENTER>;
+
+            label = "BLOCK";
+        };
+    };
+
 
     keymap {
         compatible = "zmk,keymap";
 
-        layer_0 {
+        BASE {
+            display-name = "Base";
             bindings = <
-&kp ESC         &kp Q  &kp W  &kp E     &kp R     &kp T    &kp Y          &kp U        &kp I      &kp O       &kp P          &kp BACKSPACE
-&kp LCTRL       &kp A  &kp S  &kp D     &kp F     &kp G    &kp H          &kp J        &kp K      &kp L       &kp SEMICOLON  &kp SQT
-&kp LEFT_SHIFT  &kp Z  &kp X  &kp C     &kp V     &kp B    &kp N          &kp M        &kp COMMA  &kp PERIOD  &kp SLASH      &kp ENTER
-                              &mkp MB1  &mkp MB2  &to 1    &kp RIGHT_ALT  &lt 2 SPACE
-            >;
-
-            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
-        };
-
-        layer_1 {
-            bindings = <
-&kp GRAVE       &kp N1    &kp N2     &kp N3        &kp N4    &kp N5     &kp F1                &kp F2                 &kp F3            &kp F4             &kp F5                &kp F6
-&kp CAPS        &kp N6    &kp N7     &kp N8        &kp N9    &kp N0     &kp F7                &kp F8                 &kp F9            &kp F10            &kp F11               &kp F12
-&kp LEFT_SHIFT  &kp PLUS  &kp MINUS  &kp ASTERISK  &kp FSLH  &kp DOT    &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp NON_US_BACKSLASH  &none
-                                     &kp EQUAL     &none     &to 0      &kp LEFT_WIN          &none
+&kp TAB    &kp F  &kp N  &kp D         &kp W        &kp V          &kp SQT         &kp L          &kp O      &kp U     &kp Y    &bt BT_CLR_ALL
+&td0       &kp S  &kp R  &kp T         &kp C        &kp G          &kp H           &kp K          &kp A      &kp E     &kp I    &kp SEMI
+&kp LCTRL  &kp X  &kp J  &kp M         &kp P        &kp B          &kp Q           &kp Z          &kp COMMA  &kp FSLH  &kp DOT  &kp ESC
+                         &kp LEFT_ALT  &lt 1 SPACE  &lt 2 ENTER    &kp LEFT_SHIFT  &kp BACKSPACE
             >;
         };
 
-        layer_2 {
+        NUM {
+            display-name = "Num";
             bindings = <
-&none         &none         &none         &none         &none         &none    &none  &none  &none  &none  &none  &none
-&bt BT_CLR    &none         &none         &none         &none         &none    &none  &none  &none  &none  &none  &none
-&bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &none    &none  &none  &none  &none  &none  &none
-                                          &none         &none         &none    &none  &none
+&mt GRAVE ESCAPE  &kp EXCL   &kp AT     &kp HASH          &kp DOLLAR  &kp PERCENT    &kp CARET   &kp AMPS       &kp ASTERISK  &mt LEFT_BRACKET LEFT_PARENTHESIS  &mt RIGHT_BRACE RIGHT_PARENTHESIS  &kp UNDER
+&kp LEFT_SHIFT    &kp N1     &kp N2     &kp N3            &kp N4      &kp N5         &kp N6      &kp N7         &kp N8        &kp N9                             &kp N0                             &kp BSLH
+&kp LEFT_CONTROL  &kp SLASH  &kp MINUS  &kp PLUS          &kp EQUAL   &kp SEMI       &kp COMMA   &kp DOT        &kp PLUS      &kp LA(MINUS)                      &kp FSLH                           &none
+                                        &kp LEFT_COMMAND  &trans      &trans         &kp DELETE  &kp BACKSPACE
             >;
         };
 
-        /* layer_2 {
+        NAV {
+            display-name = "Nav";
             bindings = <
-&none  &none   &none    &none   &none         &none         &kp N1         &none         &none     &none  &none   &to 0
-&none  &none   &none    &none   &none         &none         &none         &none          &rgb_ug RGB_BRD &rgb_ug RGB_BRI  &rgb_ug RGB_EFF   &rgb_ug RGB_TOG
-&none  &none   &none    &none   &none         &none         &none         &mkp LCLK     &mkp RCLK  &none  &none   &none
-&none  &none   &none    &none   &bt BT_NXT  &bt BT_CLR    &none         &none         &none     &none  &none   &none
-                                   &none         &none         &none         &none         &none
-                                                 &none         &none         &none
+&kp LEFT_ALT      &kp HOME  &none     &kp UP        &none         &kp PAGE_UP      &none             &kp F1          &kp F2   &kp F3   &kp F4   &kp SCROLLLOCK
+&kp LEFT_SHIFT    &kp END   &kp LEFT  &kp DOWN      &kp RIGHT     &kp PAGE_DOWN    &kp LEFT_SHIFT    &kp F5          &kp F6   &kp F7   &kp F8   &kp PAUSE_BREAK
+&sk LEFT_CONTROL  &mid      &xlookup  &sumifs       &countif      &kp LS(LG(S))    &kp LEFT_CONTROL  &kp F9          &kp F10  &kp F11  &kp F12  &kp INS
+                                      &bt BT_SEL 0  &bt BT_SEL 1  &none            &kp LEFT_CONTROL  &kp LEFT_SHIFT
             >;
-       
-            
         };
 
-       Mouse {
+        SYM {
+            display-name = "Sym";
             bindings = <
-&none        &none         &none         &none         &none      &none         &none       &none      &none         &none         &none         &none
-&none        &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 3  &none      &bt BT_CLR    &bt BT_CLR  &none      &bt BT_SEL 2  &bt BT_SEL 1  &bt BT_SEL 0  &none
-&none        &trans        &trans        &mkp MCLK     &trans     &none         &none       &trans     &mkp MCLK     &trans        &trans        &none
-&bootloader  &trans        &mkp RCLK     &mo 4         &mkp LCLK  &mo 5         &mo 5       &mkp LCLK  &mo 4         &mkp RCLK     &trans        &bootloader
-                                         &mo 5         &mkp LCLK  &mkp RCLK     &mkp RCLK   &mkp LCLK
-                                                       &none      &trans        &trans
+&trans  &trans  &trans        &trans       &trans    &trans    &trans  &trans    &trans    &trans    &trans  &trans
+&trans  &trans  &kp LEFT_ALT  &kp LS(TAB)  &kp TAB   &trans    &trans  &trans    &trans    &trans    &trans  &trans
+&trans  &trans  &mkp MB3      &mkp MB2     &mkp MB1  &trans    &trans  &mkp MB1  &mkp MB2  &mkp MB3  &trans  &trans
+                              &trans       &trans    &trans    &trans  &trans
             >;
-
-            
         };
 
-        layer_4 {
+        GAME {
+            display-name = "Game";
             bindings = <
-&trans  &trans  &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans  &trans
-&trans  &trans  &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans  &trans
-&trans  &trans  &trans     &mkp MCLK  &trans     &trans       &trans     &trans     &mkp MCLK  &trans     &trans  &trans
-&trans  &trans  &mkp RCLK  &trans     &mkp LCLK  &trans       &trans     &mkp LCLK  &trans     &mkp RCLK  &trans  &trans
-                           &trans     &mkp LCLK  &mkp RCLK    &mkp RCLK  &mkp LCLK
-                                      &trans     &trans       &trans
+&kp TAB           &kp U  &kp Q  &kp W     &kp E      &kp R      &trans   &trans    &trans    &trans    &trans    &trans
+&kp LEFT_SHIFT    &kp J  &kp A  &kp S     &kp D      &kp F      &trans   &kp N1    &kp N2    &kp N3    &kp N4    &trans
+&kp LEFT_CONTROL  &kp K  &kp Z  &kp X     &kp C      &kp V      &trans   &mkp MB1  &mkp MB2  &mkp MB3  &mkp MB4  &kp ESC
+                                &kp LALT  &kp SPACE  &kp RET    &kp ESC  &trans
             >;
-                
-                
-               
         };
 
-        layer_5 {
+        EXTRAS {
+            display-name = "Xtra";
             bindings = <
-&trans  &trans  &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans  &trans
-&trans  &trans  &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans  &trans
-&trans  &trans  &trans     &mkp MCLK  &trans     &trans       &trans     &trans     &mkp MCLK  &trans     &trans  &trans
-&trans  &trans  &mkp RCLK  &trans     &mkp LCLK  &trans       &trans     &mkp LCLK  &trans     &mkp RCLK  &trans  &trans
-                           &trans     &mkp LCLK  &mkp RCLK    &mkp RCLK  &mkp LCLK
-                                      &trans     &trans       &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &bt BT_CLR    &trans             &trans  &trans  &trans  &bootloader
+&trans  &trans  &trans  &trans  &trans  &trans    &trans        &trans             &trans  &trans  &trans  &sys_reset
+&trans  &trans  &trans  &trans  &trans  &trans    &trans        &trans             &trans  &trans  &trans  &bt BT_CLR_ALL
+                        &trans  &trans  &trans    &out OUT_TOG  &ext_power EP_TOG
             >;
-                
-                
-        };*/
+        };
+
+        SLOW {
+            display-name = "Slow";
+            bindings = <
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+                        &trans  &trans  &trans    &trans  &trans
+            >;
+        };
+
+        SCROLL {
+            display-name = "Scroll";
+            bindings = <
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+                        &trans  &trans  &trans    &trans  &trans
+            >;
+        };
     };
 };
