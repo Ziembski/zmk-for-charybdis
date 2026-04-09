@@ -95,11 +95,6 @@
             key-positions = <13 14 15 16>;
         };
 
-        config {
-            bindings = <&tog 5>;
-            key-positions = <19 21 22 20>;
-        };
-
         lm {
             bindings = <&mkp MB1>;
             key-positions = <27 28>;
@@ -243,34 +238,5 @@
             >;
         };
 
-        EXTRAS {
-            display-name = "Xtra";
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &bt BT_CLR    &trans             &trans  &trans  &trans  &bootloader
-&trans  &trans  &trans  &trans  &trans  &trans    &trans        &trans             &trans  &trans  &trans  &sys_reset
-&trans  &trans  &trans  &trans  &trans  &trans    &trans        &trans             &trans  &trans  &trans  &bt BT_CLR_ALL
-                        &trans  &trans  &trans    &out OUT_TOG  &trans 
-            >;
-        };
-
-        SLOW {
-            display-name = "Slow";
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-                        &trans  &trans  &trans    &trans  &trans
-            >;
-        };
-
-        SCROLL {
-            display-name = "Scroll";
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-                        &trans  &trans  &trans    &trans  &trans
-            >;
-        };
     };
 };
