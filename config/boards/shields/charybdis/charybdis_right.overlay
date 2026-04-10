@@ -20,9 +20,7 @@
 		, <&gpio1 4  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
 		;
 };
-&right_encoder {
-    status = "okay";
-};
+
 
 // trackball bus
 &pinctrl {
