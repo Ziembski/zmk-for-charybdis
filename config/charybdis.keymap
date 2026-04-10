@@ -1,8 +1,8 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/pointing.h>
-#include <dt-bindings/zmk/rgb.h>
 #include "keys_pl.h"
 
 &lt {
@@ -12,7 +12,6 @@
 };
 
 / {
-
     behaviors {
         td0: td0 {
             compatible = "zmk,behavior-tap-dance";
@@ -91,7 +90,7 @@
         };
 
         Gaming {
-            bindings = <&tog 4>;
+            bindings = <&tog 3>;
             key-positions = <13 14 15 16>;
         };
 
@@ -108,6 +107,11 @@
         mm {
             bindings = <&mkp MB3>;
             key-positions = <27 28 26>;
+        };
+
+        mb1bis {
+            bindings = <&mkp MB1>;
+            key-positions = <32 33 31>;
         };
     };
 
@@ -184,14 +188,13 @@
         };
     };
 
-
     keymap {
         compatible = "zmk,keymap";
 
         BASE {
             display-name = "Base";
             bindings = <
-&kp TAB    &kp F  &kp N  &kp D         &kp W        &kp V          &kp SQT         &kp L          &kp O      &kp U     &kp Y    &bt BT_CLR_ALL
+&kp TAB    &kp F  &kp N  &kp D         &kp W        &kp V          &kp SQT         &kp L          &kp O      &kp U     &kp Y    &none
 &td0       &kp S  &kp R  &kp T         &kp C        &kp G          &kp H           &kp K          &kp A      &kp E     &kp I    &kp SEMI
 &kp LCTRL  &kp X  &kp J  &kp M         &kp P        &kp B          &kp Q           &kp Z          &kp COMMA  &kp FSLH  &kp DOT  &kp ESC
                          &kp LEFT_ALT  &lt 1 SPACE  &lt 2 ENTER    &kp LEFT_SHIFT  &kp BACKSPACE
@@ -201,9 +204,9 @@
         NUM {
             display-name = "Num";
             bindings = <
-&mt GRAVE ESCAPE  &kp EXCL   &kp AT     &kp HASH          &kp DOLLAR  &kp PERCENT    &kp CARET   &kp AMPS       &kp ASTERISK  &mt LEFT_BRACKET LEFT_PARENTHESIS  &mt RIGHT_BRACE RIGHT_PARENTHESIS  &kp UNDER
+&mt GRAVE ESCAPE  &kp EXCL   &kp AT     &kp HASH          &kp DOLLAR  &kp PERCENT    &kp CARET   &kp AMPS       &kp ASTERISK  &mt LEFT_BRACKET LEFT_PARENTHESIS  &mt RIGHT_BRACE RIGHT_PARENTHESIS  &none
 &kp LEFT_SHIFT    &kp N1     &kp N2     &kp N3            &kp N4      &kp N5         &kp N6      &kp N7         &kp N8        &kp N9                             &kp N0                             &kp BSLH
-&kp LEFT_CONTROL  &kp SLASH  &kp MINUS  &kp PLUS          &kp EQUAL   &kp SEMI       &kp COMMA   &kp DOT        &kp PLUS      &kp LA(MINUS)                      &kp FSLH                           &none
+&kp LEFT_CONTROL  &kp SLASH  &kp MINUS  &kp PLUS          &kp EQUAL   &kp SEMI       &none       &none          &kp COMMA     &kp FSLH                           &kp DOT                            &kp UNDER
                                         &kp LEFT_COMMAND  &trans      &trans         &kp DELETE  &kp BACKSPACE
             >;
         };
@@ -211,20 +214,10 @@
         NAV {
             display-name = "Nav";
             bindings = <
-&kp LEFT_ALT      &kp HOME  &none     &kp UP        &none         &kp PAGE_UP      &none             &kp F1          &kp F2   &kp F3   &kp F4   &kp SCROLLLOCK
-&kp LEFT_SHIFT    &kp END   &kp LEFT  &kp DOWN      &kp RIGHT     &kp PAGE_DOWN    &kp LEFT_SHIFT    &kp F5          &kp F6   &kp F7   &kp F8   &kp PAUSE_BREAK
-&sk LEFT_CONTROL  &mid      &xlookup  &sumifs       &countif      &kp LS(LG(S))    &kp LEFT_CONTROL  &kp F9          &kp F10  &kp F11  &kp F12  &kp INS
-                                      &bt BT_SEL 0  &bt BT_SEL 1  &none            &kp LEFT_CONTROL  &kp LEFT_SHIFT
-            >;
-        };
-
-        SYM {
-            display-name = "Sym";
-            bindings = <
-&trans  &trans  &trans        &trans       &trans    &trans    &trans  &trans    &trans    &trans    &trans  &trans
-&trans  &trans  &kp LEFT_ALT  &kp LS(TAB)  &kp TAB   &trans    &trans  &trans    &trans    &trans    &trans  &trans
-&trans  &trans  &mkp MB3      &mkp MB2     &mkp MB1  &trans    &trans  &mkp MB1  &mkp MB2  &mkp MB3  &trans  &trans
-                              &trans       &trans    &trans    &trans  &trans
+&kp LEFT_ALT      &kp HOME  &kp LC(PAGE_UP)  &kp UP        &kp LC(PAGE_DOWN)  &kp PAGE_UP      &none             &kp F1          &kp F2   &kp F3   &kp F4   &kp SCROLLLOCK
+&kp LEFT_SHIFT    &kp END   &kp LEFT         &kp DOWN      &kp RIGHT          &kp PAGE_DOWN    &kp LEFT_SHIFT    &kp F5          &kp F6   &kp F7   &kp F8   &kp PAUSE_BREAK
+&sk LEFT_CONTROL  &mid      &xlookup         &sumifs       &countif           &kp LS(LG(S))    &kp LEFT_CONTROL  &kp F9          &kp F10  &kp F11  &kp F12  &kp INS
+                                             &bt BT_SEL 0  &bt BT_SEL 1       &none            &kp LEFT_CONTROL  &kp LEFT_SHIFT
             >;
         };
 
@@ -238,5 +231,13 @@
             >;
         };
 
+        EXTRAS {
+            bindings = <
+&trans  &trans  &trans  &trans  &trans  &trans    &trans          &trans  &trans  &trans  &trans  &bootloader
+&trans  &trans  &trans  &trans  &trans  &trans    &trans          &trans  &trans  &trans  &trans  &sys_reset
+&trans  &trans  &trans  &trans  &trans  &trans    &trans          &trans  &trans  &trans  &trans  &out OUT_TOG
+                        &trans  &trans  &trans    &bt BT_CLR_ALL  &trans
+            >;
+        };
     };
 };
