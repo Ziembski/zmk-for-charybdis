@@ -89,7 +89,7 @@
 		
 			scroller: scroller {
 				layers           = <1>;
-				input-processors = <&zip_xy_scaler 1 15>, <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform (INPUT_TRANSFORM_Y_INVERT)>;
+				input-processors = <&zip_xy_transform (INPUT_TRANSFORM_Y_INVERT)>, <&zip_xy_scaler 1 40>, <&zip_xy_to_scroll_mapper>; 
 			};
 			
 			slow_pointer: slow_pointer {
