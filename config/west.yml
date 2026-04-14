@@ -4,14 +4,15 @@ manifest:
       url-base: https://github.com/zmkfirmware
     - name: Ziembski
       url-base: https://github.com/Ziembski
+    - name: badjeff
+      url-base: https://github.com/badjeff
   projects:
     - name: zmk
       remote: zmkfirmware
-      revision: v0.3
+      revision: main
       import: app/west.yml
     - name: zmk-pmw3610-driver
-      remote: Ziembski
+      remote: badjeff
       revision: main
-      
   self:
     path: config

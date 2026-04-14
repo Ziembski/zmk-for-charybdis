@@ -5,6 +5,9 @@
  */
  
 #include "charybdis.dtsi"
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+#include <input/processors.dtsi>
+
 
 &default_transform {
     col-offset = <6>;
@@ -52,12 +55,27 @@
 
     trackball: trackball@0 {
         status = "okay";
-        compatible = "pixart,pmw3610";
+        compatible = "pixart,pmw3610-alt";
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-		scroll-layers = <1>;
-		snipe-layers = <2>;
+        cpi = <3000>;
+        swap-xy; /* optional */
+        invert-x; /* optional */
+        invert-y; /* optional */
+        evt-type = <INPUT_EV_REL>;
+        x-input-code = <INPUT_REL_X>;
+        y-input-code = <INPUT_REL_Y>;
+
+        force-awake; /* optional */
+        /* keep the sensor awake while ZMK activity state is ACTIVE,
+           fallback to normal downshift mode after ZMK goes into IDLE / SLEEP mode.
+           thus, the sensor would be a `wakeup-source` */
+
+        force-awake-4ms-mode; /* optional */
+        /* while force-awake is acitvated, enable this mode to force sampling per 
+           4ms, where the default sampling rate is 8ms. */
+        /* NOTE: apply this mode if you need 250Hz with direct USB connection. */
     };
 };
 
@@ -69,7 +87,15 @@
         compatible = "zmk,input-listener";
         device = <&trackball>;
 		
-	
+			scroller: scroller {
+				layers           = <1>;
+				input-processors = <&zip_xy_transform (INPUT_TRANSFORM_Y_INVERT)>, <&zip_xy_scaler 1 40>, <&zip_xy_to_scroll_mapper>; 
+			};
+			
+			slow_pointer: slow_pointer {
+				layers           = <2>;
+				input-processors = <&zip_xy_scaler 2 6>;
+			}; 
     };
 };
 
