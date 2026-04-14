@@ -87,17 +87,15 @@
         compatible = "zmk,input-listener";
         device = <&trackball>;
 		
-		    /* layer-8 scroll override
 			scroller: scroller {
 				layers           = <1>;
 				input-processors = <&zip_xy_scaler 1 15>, <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform (INPUT_TRANSFORM_Y_INVERT)>;
 			};
 			
-			/* layer-7 slow-pointer override
 			slow_pointer: slow_pointer {
 				layers           = <2>;
 				input-processors = <&zip_xy_scaler 2 6>;
-			}; */
+			}; 
     };
 };
 
