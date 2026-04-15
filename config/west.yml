@@ -11,7 +11,7 @@ manifest:
       import: app/west.yml
     - name: zmk-pmw3610-driver
       remote: Ziembski
-      revision: main
+      revision: update-to-main
       
   self:
     path: config
