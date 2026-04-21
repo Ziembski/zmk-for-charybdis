@@ -15,7 +15,7 @@ manifest:
       remote: Ziembski
       revision: update-to-main
     - name: ZMK-Advertising-Module
-      remote: your-user
+      remote: Ziembski
       revision: main
       path: modules/ZMK-Advertising-Module
       
