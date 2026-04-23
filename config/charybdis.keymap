@@ -170,26 +170,11 @@
             label = "COUNTIF";
         };
 
-        block: block {
+        logout: logout {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            wait-ms = <100>;
-            tap-ms = <50>;
-            bindings =
-                <&macro_press>,
-                <&kp LCTRL &kp LALT>,
-                <&macro_tap>,
-                <&kp DEL>,
-                <&macro_release>,
-                <&kp LCTRL &kp LALT>,
-                <&macro_wait_time 1000>,
-                <&macro_tap>,
-                <&kp TAB>,
-                <&macro_wait_time 100>,
-                <&macro_tap>,
-                <&kp UP &kp ENTER>;
-
-            label = "BLOCK";
+            bindings = <&kp LEFT_WIN &kp L>;
+            label = "LOGOUT";
         };
     };
 
@@ -199,7 +184,7 @@
         BASE {
             display-name = "Base";
             bindings = <
-&kp TAB    &kp F  &kp N  &kp D         &kp W        &kp V          &kp SQT         &kp L          &kp O      &kp U     &kp Y    &none
+&kp TAB    &kp F  &kp N  &kp D         &kp W        &kp V          &kp SQT         &kp L          &kp O      &kp U     &kp Y    &logout
 &td0       &kp S  &kp R  &kp T         &kp C        &kp G          &kp H           &kp K          &kp A      &kp E     &kp I    &kp SEMI
 &kp LCTRL  &kp X  &kp J  &kp M         &kp P        &kp B          &kp Q           &kp Z          &kp COMMA  &kp FSLH  &kp DOT  &kp ESC
                          &kp LEFT_ALT  &lt 1 SPACE  &lt 2 ENTER    &kp LEFT_SHIFT  &kp BACKSPACE
