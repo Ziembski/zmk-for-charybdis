@@ -27,63 +27,63 @@
         compatible = "zmk,combos";
 
         Zs {
-            timeout-ms = <50>;
+            timeout-ms = <35>;
             bindings = <&kp RA(Z)>;
             key-positions = <31 32>;
             layers = <0>;
         };
 
         Xs {
-            timeout-ms = <50>;
+            timeout-ms = <35>;
             bindings = <&kp PL_X>;
             key-positions = <25 26>;
             layers = <0>;
         };
 
         Cs {
-            timeout-ms = <50>;
+            timeout-ms = <35>;
             bindings = <&kp PL_C>;
             key-positions = <16 15>;
             layers = <0>;
         };
 
         Ns {
-            timeout-ms = <50>;
+            timeout-ms = <35>;
             bindings = <&kp PL_N>;
             key-positions = <2 3>;
             layers = <0>;
         };
 
         Ls {
-            timeout-ms = <50>;
+            timeout-ms = <35>;
             bindings = <&kp PL_L>;
             key-positions = <7 8>;
             layers = <0>;
         };
 
         Es {
-            timeout-ms = <50>;
+            timeout-ms = <35>;
             bindings = <&kp PL_E>;
             key-positions = <21 22>;
             layers = <0>;
         };
 
         Os {
-            timeout-ms = <50>;
+            timeout-ms = <35>;
             bindings = <&kp PL_O>;
             key-positions = <8 9>;
             layers = <0>;
         };
 
         As {
-            timeout-ms = <50>;
+            timeout-ms = <35>;
             bindings = <&kp PL_A>;
             key-positions = <20 19>;
             layers = <0>;
         };
 
         Ss {
-            timeout-ms = <50>;
+            timeout-ms = <35>;
             bindings = <&kp PL_S>;
             key-positions = <13 14>;
             layers = <0>;
