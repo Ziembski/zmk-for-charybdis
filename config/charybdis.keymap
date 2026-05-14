@@ -194,9 +194,9 @@
         NUM {
             display-name = "Num";
             bindings = <
-&mt GRAVE ESCAPE  &kp EXCL   &kp AT     &kp HASH          &kp DOLLAR  &kp PERCENT    &kp CARET   &kp AMPS       &kp ASTERISK  &mt LEFT_BRACKET LEFT_PARENTHESIS  &mt RIGHT_BRACE RIGHT_PARENTHESIS  &none
-&kp LEFT_SHIFT    &kp N1     &kp N2     &kp N3            &kp N4      &kp N5         &kp N6      &kp N7         &kp N8        &kp N9                             &kp N0                             &kp BSLH
-&kp LEFT_CONTROL  &kp SLASH  &kp MINUS  &kp PLUS          &kp EQUAL   &kp SEMI       &none       &none          &kp COMMA     &kp FSLH                           &kp DOT                            &kp UNDER
+&mt GRAVE ESCAPE  &kp EXCL   &kp AT     &kp HASH          &kp DOLLAR  &kp PERCENT    &kp CARET   &kp AMPS       &kp ASTERISK  &mt LEFT_BRACKET LEFT_PARENTHESIS  &mt RIGHT_BRACKET RIGHT_PARENTHESIS  &none
+&kp LEFT_SHIFT    &kp N1     &kp N2     &kp N3            &kp N4      &kp N5         &kp N6      &kp N7         &kp N8        &kp N9                             &kp N0                               &kp BSLH
+&kp LEFT_CONTROL  &kp SLASH  &kp MINUS  &kp PLUS          &kp EQUAL   &kp SEMI       &none       &none          &kp COMMA     &kp FSLH                           &kp DOT                              &kp UNDER
                                         &kp LEFT_COMMAND  &trans      &trans         &kp DELETE  &kp BACKSPACE
             >;
         };
