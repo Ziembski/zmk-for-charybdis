@@ -21,14 +21,15 @@
 
             label = "Shift + Caps";
         };
+
         td1: td1 {
             compatible = "zmk,behavior-tap-dance";
             display-name = "BT 0 / BT 2 Lock Tap Dance";
             #binding-cells = <0>;
             bindings = <&bt BT_SEL 0>, <&bt BT_SEL 2>;
+
             label = "Tap BT0, dblt BT2";
         };
-		
     };
 
     combos {
@@ -181,7 +182,7 @@
         logout: logout {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp LEFT_WIN &kp L>;
+            bindings = <&sk LEFT_WIN &kp L>;
             label = "LOGOUT";
         };
     };
@@ -212,10 +213,10 @@
         NAV {
             display-name = "Nav";
             bindings = <
-&kp LEFT_ALT      &kp HOME  &kp LC(PAGE_UP)  &kp UP        &kp LC(PAGE_DOWN)  &kp PAGE_UP      &none             &kp F1          &kp F2   &kp F3   &kp F4   &kp SCROLLLOCK
-&kp LEFT_SHIFT    &kp END   &kp LEFT         &kp DOWN      &kp RIGHT          &kp PAGE_DOWN    &kp LEFT_SHIFT    &kp F5          &kp F6   &kp F7   &kp F8   &kp PAUSE_BREAK
-&sk LEFT_CONTROL  &mid      &xlookup         &sumifs       &countif           &kp LS(LG(S))    &kp LEFT_CONTROL  &kp F9          &kp F10  &kp F11  &kp F12  &kp INS
-                                             &td1  &bt BT_SEL 1       &none            &kp LEFT_CONTROL  &kp LEFT_SHIFT
+&kp LEFT_ALT      &kp HOME  &kp LC(PAGE_UP)  &kp UP    &kp LC(PAGE_DOWN)  &kp PAGE_UP      &none             &kp F1          &kp F2   &kp F3   &kp F4   &kp SCROLLLOCK
+&kp LEFT_SHIFT    &kp END   &kp LEFT         &kp DOWN  &kp RIGHT          &kp PAGE_DOWN    &kp LEFT_SHIFT    &kp F5          &kp F6   &kp F7   &kp F8   &kp PAUSE_BREAK
+&sk LEFT_CONTROL  &mid      &xlookup         &sumifs   &countif           &kp LS(LG(S))    &kp LEFT_CONTROL  &kp F9          &kp F10  &kp F11  &kp F12  &kp INS
+                                             &td1      &bt BT_SEL 1       &none            &kp LEFT_CONTROL  &kp LEFT_SHIFT
             >;
         };
 
