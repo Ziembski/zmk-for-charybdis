@@ -35,7 +35,7 @@
             ;
     };
 	
-	&trackball_listener {
+	trackball_listener {
 		/* base processor chain on all layers */
 		input-processors = <&zip_xy_scaler 5 5>;
 
