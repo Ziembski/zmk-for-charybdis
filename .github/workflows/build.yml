@@ -2,5 +2,5 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    cmake: .      # tells west to include the root CMakeLists.txt
+    cmake-ext: True      # tells west to include the root CMakeLists.txt
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
