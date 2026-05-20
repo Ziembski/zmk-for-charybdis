@@ -74,3 +74,19 @@
 };
 
 
+
+// ── USB CDC-ACM UART for ZMK_USB_LOGGING ────────────────────
+// Adds the zephyr,cdc-acm-uart node that satisfies the
+// DT_HAS_ZEPHYR_CDC_ACM_UART_ENABLED Kconfig dependency.
+// Only included in the right (central) build via this overlay.
+/ {
+    chosen {
+        zephyr,console = &cdc_acm_uart0;
+    };
+};
+
+&usbd {
+    cdc_acm_uart0: cdc_acm_uart0 {
+        compatible = "zephyr,cdc-acm-uart";
+    };
+};
