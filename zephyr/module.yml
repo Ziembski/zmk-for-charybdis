@@ -1,3 +1,4 @@
 build:
+  cmake: .             # tells west to include CMakeLists.txt from the repo root
   settings:
     board_root: .

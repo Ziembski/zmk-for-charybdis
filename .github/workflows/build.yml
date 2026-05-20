@@ -1,6 +1,5 @@
 on: [push, pull_request, workflow_dispatch]
 
-build:
-  cmake: .             # tells west to include CMakeLists.txt from the repo root
-  settings:
-    board_root: .
+jobs:
+  build:
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
