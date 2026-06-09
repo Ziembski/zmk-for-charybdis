@@ -12,9 +12,6 @@ manifest:
     - name: zmk-pmw3610-driver
       remote: Ziembski
       revision: update-to-main
-    - name: Peahen-Calling-for-ZMK
-      remote: Ziembski
-      revision: main
       
   self:
     path: config
