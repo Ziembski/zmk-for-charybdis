@@ -73,8 +73,8 @@
         volume {
             layers = <2>;
             bindings =
-                <&none>,        /* X+ (right) — unused */
-                <&none>,        /* X- (left)  — unused */
+                <&kp C_VOL_UP>, /* X+ (right) — mapped same as up  */
+                <&kp C_VOL_DN>, /* X- (left)  — mapped same as down */
                 <&kp C_VOL_UP>, /* Y+ (up)    — volume up   */
                 <&kp C_VOL_DN>; /* Y- (down)  — volume down */
             tick = <30>;
