@@ -5,9 +5,6 @@
  */
  
 #include "charybdis.dtsi"
-#include <zephyr/dt-bindings/input/input-event-codes.h>
-#include <input/processors.dtsi>
-#include <dt-bindings/zmk/keys.h>
 
 &default_transform {
     col-offset = <6>;
@@ -59,7 +56,8 @@
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        scroll-layers = <1>;
+		scroll-layers = <1>;
+		snipe-layers = <2>;
     };
 };
 
@@ -67,54 +65,11 @@
 
 
 / {
-    trackball_listener: trackball_listener {
+    trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;
-
-        /* Layer 2 (NAV held via &lt 2 ENTER): suppress cursor, remap Y→scroll.
-         * The actual volume keycodes are fired by the input-behavior-listener
-         * nodes below. zip_xy_to_scroll_mapper prevents stray cursor motion
-         * from leaking to the HID mouse report while vol listeners run. */
-        nav_layer {
-            layers = <2>;
-            input-processors = <&zip_xy_to_scroll_mapper>;
-        };
-    };
-
-    /*
-     * Volume UP — fires C_VOL_UP for each upward trackball tick on layer 2.
-     * scale-divisor: tune this value to taste.
-     *   Higher = coarser (more movement per step). Start at 8.
-     *
-     * Rolling trackball UP (away from palm) = negative REL_Y on PMW3610 →
-     * y-invert makes that trigger this "up" node.
-     */
-    tb_vol_up: tb_vol_up {
-        compatible = "zmk,input-behavior-listener";
-        device = <&trackball>;
-        layers = <2>;
-        evt-type = <INPUT_EV_REL>;
-        x-input-code = <INPUT_REL_MISC>;   /* silence X axis on this layer */
-        y-input-code = <INPUT_REL_Y>;
-        y-invert;                           /* rolling up = vol up */
-        scale-divisor = <8>;
-        bindings = <&kp C_VOL_UP>;
-    };
-
-    /*
-     * Volume DOWN — fires C_VOL_DN for each downward trackball tick on layer 2.
-     * Rolling trackball DOWN (toward palm) = positive REL_Y → triggers this node.
-     */
-    tb_vol_dn: tb_vol_dn {
-        compatible = "zmk,input-behavior-listener";
-        device = <&trackball>;
-        layers = <2>;
-        evt-type = <INPUT_EV_REL>;
-        x-input-code = <INPUT_REL_MISC>;
-        y-input-code = <INPUT_REL_Y>;
-        /* no y-invert: rolling down = vol down */
-        scale-divisor = <8>;
-        bindings = <&kp C_VOL_DN>;
+		
+	
     };
 };
 
