@@ -56,10 +56,18 @@
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 
+        /* CPI replaces CONFIG_PMW3610_INO_CPI / CONFIG_PMW3610_INO_CPI_DIVIDOR.
+         * Ziembski: 1800 CPI / divisor 3 = effective 600 CPI.
+         * badjeff takes the final CPI directly — set 600 to match. */
         cpi = <600>;
+
+        /* Orientation: replaces CONFIG_PMW3610_INO_ORIENTATION_90 +
+         * CONFIG_PMW3610_INO_INVERT_X.  swap-xy rotates 90°, invert-x
+         * then matches the original INVERT_X flag. */
         swap-xy;
         invert-x;
 
+        /* Axis event codes — required by badjeff driver */
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
@@ -99,10 +107,18 @@
         compatible = "zmk,input-listener";
         device = <&trackball>;
 
+        /*
+         * Layer 1 — scroll mode.
+         * zip_xy_to_scroll_mapper converts REL_X/Y → REL_HWHEEL/WHEEL.
+         * This replaces CONFIG_PMW3610_INO_SCROLL_TICK / scroll-layers.
+         *
+         * Use zip_scroll_scaler to tune scroll speed (multiplier divisor).
+         * 1 2 = half speed; 1 1 = default. Adjust to taste.
+         */
         scroll {
             layers = <1>;
             input-processors = <&zip_xy_to_scroll_mapper>,
-                               <&zip_wheel_scaler 1 2>;
+                               <&zip_scroll_scaler 1 2>;
         };
 
         /*
