@@ -1,42 +1,41 @@
 /*
  * Copyright (c) 2020 ZMK Contributors
- *
  * SPDX-License-Identifier: MIT
  */
- 
+
 #include "charybdis.dtsi"
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+#include <input/processors.dtsi>
+#include <dt-bindings/zmk/keys.h>
 
 &default_transform {
     col-offset = <6>;
-}; 
-
-&kscan0 {
-	col-gpios
-		= <&gpio0 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		, <&gpio0 29 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		, <&gpio0 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		, <&gpio1 0  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		, <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		, <&gpio1 4  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		;
 };
 
+&kscan0 {
+    col-gpios
+        = <&gpio0 2  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&gpio0 29 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&gpio0 9  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&gpio1 0  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&gpio1 4  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        ;
+};
 
-// trackball bus
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 8)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 17)>,
-                <NRF_PSEL(SPIM_MISO, 0, 17)>;
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 17)>;
         };
     };
-
     spi0_sleep: spi0_sleep {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 8)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 17)>,
-                <NRF_PSEL(SPIM_MISO, 0, 17)>;
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 17)>;
             low-power-enable;
         };
     };
@@ -52,25 +51,69 @@
 
     trackball: trackball@0 {
         status = "okay";
-        compatible = "pixart,pmw3610-ino";
+        compatible = "pixart,pmw3610-alt";     /* badjeff driver              */
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-		scroll-layers = <1>;
-		snipe-layers = <2>;
+
+        cpi = <600>;
+        swap-xy;
+        invert-x;
+
+        evt-type = <INPUT_EV_REL>;
+        x-input-code = <INPUT_REL_X>;
+        y-input-code = <INPUT_REL_Y>;
+
+        /* Keep sensor awake while ZMK is in ACTIVE state so it acts as a
+         * wakeup source; falls back to power-saving downshift on IDLE/SLEEP. */
+        force-awake;
     };
 };
-
-
-
 
 / {
-    trackball_listener {
+    /*
+     * Custom volume input processor.
+     *
+     * Accumulates REL_Y counts into a signed remainder and fires one
+     * C_VOL_UP or C_VOL_DN press+release each time it crosses ±tick.
+     * No counts are lost between events.
+     *
+     * tick = 30: at CPI 600 a comfortable roll gives ~10 volume steps.
+     * Raise tick to make volume changes coarser, lower to make them finer.
+     *
+     * y-invert: swap-xy + invert-x means rolling the ball UP produces
+     * negative REL_Y on this sensor. y-invert corrects that so UP = louder.
+     * Remove y-invert if direction is wrong after flashing.
+     */
+    zip_vol: zip_vol {
+        compatible = "zmk,input-processor-volume";
+        #input-processor-cells = <0>;
+        type = <INPUT_EV_REL>;
+        y-input-code = <INPUT_REL_Y>;
+        tick = <30>;
+        y-invert;
+        bindings = <&kp C_VOL_UP>, <&kp C_VOL_DN>;
+    };
+
+    trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;
-		
-	
+
+        scroll {
+            layers = <1>;
+            input-processors = <&zip_xy_to_scroll_mapper>,
+                               <&zip_wheel_scaler 1 2>;
+        };
+
+        /*
+         * Layer 2 — volume mode.
+         * zip_vol accumulates REL_Y and dispatches C_VOL_UP / C_VOL_DN.
+         * ZMK_INPUT_PROC_STOP inside the processor prevents any cursor
+         * movement leaking through on this layer.
+         */
+        volume {
+            layers = <2>;
+            input-processors = <&zip_vol>;
+        };
     };
 };
-
-

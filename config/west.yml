@@ -2,6 +2,8 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
+    - name: badjeff
+      url-base: https://github.com/badjeff
     - name: Ziembski
       url-base: https://github.com/Ziembski
   projects:
@@ -9,9 +11,13 @@ manifest:
       remote: zmkfirmware
       revision: v0.3
       import: app/west.yml
-    - name: zmk-pmw3610-driver
-      remote: Ziembski
-      revision: update-to-main
-      
+    - name: zmk-pmw3610-driver          # badjeff driver
+      remote: badjeff
+      revision: main
+    - name: zmk-input-processor-volume  # custom volume processor module
+      remote: Ziembski    # ← replace with your GitHub username
+      revision: main
+      path: zmk-input-processor-volume
+
   self:
     path: config
