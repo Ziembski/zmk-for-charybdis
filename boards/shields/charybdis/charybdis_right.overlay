@@ -5,6 +5,7 @@
 
 #include "charybdis.dtsi"
 #include <zephyr/dt-bindings/input/input-event-codes.h>
+#include <dt-bindings/zmk/input_transform.h>
 #include <input/processors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 
@@ -51,47 +52,52 @@
 
     trackball: trackball@0 {
         status = "okay";
-        compatible = "pixart,pmw3610-alt";     /* badjeff driver              */
+        compatible = "pixart,pmw3610-alt";
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 
-        /* CPI replaces CONFIG_PMW3610_INO_CPI / CONFIG_PMW3610_INO_CPI_DIVIDOR.
-         * Ziembski: 1800 CPI / divisor 3 = effective 600 CPI.
-         * badjeff takes the final CPI directly — set 600 to match. */
         cpi = <600>;
 
-        /* Orientation: replaces CONFIG_PMW3610_INO_ORIENTATION_90 +
-         * CONFIG_PMW3610_INO_INVERT_X.  swap-xy rotates 90°, invert-x
-         * then matches the original INVERT_X flag. */
         swap-xy;
         invert-x;
+        invert-y;    /* invert standard cursor Y axis */
 
-        /* Axis event codes — required by badjeff driver */
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
 
-        /* Keep sensor awake while ZMK is in ACTIVE state so it acts as a
-         * wakeup source; falls back to power-saving downshift on IDLE/SLEEP. */
         force-awake;
     };
 };
 
 / {
     /*
-     * Custom volume input processor.
+     * Zero-scaler for the volume layer.
      *
-     * Accumulates REL_Y counts into a signed remainder and fires one
-     * C_VOL_UP or C_VOL_DN press+release each time it crosses ±tick.
-     * No counts are lost between events.
+     * Intentionally does NOT use the predefined &zip_xy_scaler because that
+     * instance has track-remainders enabled — accumulated remainder from cursor
+     * movement on other layers would bleed through on the first event after
+     * switching to the volume layer, causing a small cursor jump.
      *
-     * tick = 30: at CPI 600 a comfortable roll gives ~10 volume steps.
-     * Raise tick to make volume changes coarser, lower to make them finer.
+     * Without track-remainders, every event is scaled independently:
+     * value * 0 / 1 = 0, cleanly, with no state carried between layers.
+     */
+    zip_xy_nullifier: zip_xy_nullifier {
+        compatible = "zmk,input-processor-scaler";
+        #input-processor-cells = <2>;
+        type = <INPUT_EV_REL>;
+        codes = <INPUT_REL_X INPUT_REL_Y>;
+        /* track-remainders intentionally omitted */
+    };
+
+    /*
+     * Volume processor.
      *
-     * y-invert: swap-xy + invert-x means rolling the ball UP produces
-     * negative REL_Y on this sensor. y-invert corrects that so UP = louder.
-     * Remove y-invert if direction is wrong after flashing.
+     * y-invert: inverts Y specifically for the volume layer, independently
+     * of the device-level invert-y. Both are intentional:
+     *   - invert-y on the device node  → cursor Y is inverted
+     *   - y-invert on zip_vol          → volume Y is also inverted
      */
     zip_vol: zip_vol {
         compatible = "zmk,input-processor-volume";
@@ -107,14 +113,7 @@
         compatible = "zmk,input-listener";
         device = <&trackball>;
 
-        /*
-         * Layer 1 — scroll mode.
-         * zip_xy_to_scroll_mapper converts REL_X/Y → REL_HWHEEL/WHEEL.
-         * This replaces CONFIG_PMW3610_INO_SCROLL_TICK / scroll-layers.
-         *
-         * Use zip_scroll_scaler to tune scroll speed (multiplier divisor).
-         * 1 2 = half speed; 1 1 = default. Adjust to taste.
-         */
+        /* Layer 1 — scroll */
         scroll {
             layers = <1>;
             input-processors = <&zip_xy_to_scroll_mapper>,
@@ -122,14 +121,17 @@
         };
 
         /*
-         * Layer 2 — volume mode.
-         * zip_vol accumulates REL_Y and dispatches C_VOL_UP / C_VOL_DN.
-         * ZMK_INPUT_PROC_STOP inside the processor prevents any cursor
-         * movement leaking through on this layer.
+         * Layer 2 — volume only.
+         *
+         * zip_xy_nullifier zeros both REL_X and REL_Y (no track-remainders
+         * so no bleed from other layers), then zip_vol intercepts REL_Y
+         * and fires volume keycodes, returning ZMK_INPUT_PROC_STOP so the
+         * zeroed REL_Y never reaches the HID accumulator either.
+         * REL_X is zeroed and falls through to handle_rel_code with value=0.
          */
         volume {
             layers = <2>;
-            input-processors = <&zip_vol>;
+            input-processors = <&zip_xy_nullifier 0 1>, <&zip_vol>;
         };
     };
 };
