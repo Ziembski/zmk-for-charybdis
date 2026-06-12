@@ -99,7 +99,7 @@
         type = <INPUT_EV_REL>;
         y-input-code = <INPUT_REL_Y>;
         tick = <30>;
-        y-invert; 
+        y-invert;
         bindings = <&kp C_VOL_UP>, <&kp C_VOL_DN>;
     };
 
