@@ -66,6 +66,7 @@
          * then matches the original INVERT_X flag. */
         swap-xy;
         invert-x;
+        y-invert; 
 
         /* Axis event codes — required by badjeff driver */
         evt-type = <INPUT_EV_REL>;
@@ -99,7 +100,7 @@
         type = <INPUT_EV_REL>;
         y-input-code = <INPUT_REL_Y>;
         tick = <30>;
-        y-invert;
+        y-invert; 
         bindings = <&kp C_VOL_UP>, <&kp C_VOL_DN>;
     };
 
