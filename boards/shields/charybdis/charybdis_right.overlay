@@ -5,7 +5,6 @@
 
 #include "charybdis.dtsi"
 #include <zephyr/dt-bindings/input/input-event-codes.h>
-#include <dt-bindings/zmk/input_transform.h>
 #include <input/processors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 
@@ -73,31 +72,19 @@
 
 / {
     /*
-     * Zero-scaler for the volume layer.
-     *
-     * Intentionally does NOT use the predefined &zip_xy_scaler because that
-     * instance has track-remainders enabled — accumulated remainder from cursor
-     * movement on other layers would bleed through on the first event after
-     * switching to the volume layer, causing a small cursor jump.
-     *
-     * Without track-remainders, every event is scaled independently:
-     * value * 0 / 1 = 0, cleanly, with no state carried between layers.
-     */
-    zip_xy_nullifier: zip_xy_nullifier {
-        compatible = "zmk,input-processor-scaler";
-        #input-processor-cells = <2>;
-        type = <INPUT_EV_REL>;
-        codes = <INPUT_REL_X INPUT_REL_Y>;
-        /* track-remainders intentionally omitted */
-    };
-
-    /*
      * Volume processor.
      *
-     * y-invert: inverts Y specifically for the volume layer, independently
-     * of the device-level invert-y. Both are intentional:
-     *   - invert-y on the device node  → cursor Y is inverted
-     *   - y-invert on zip_vol          → volume Y is also inverted
+     * On REL_Y: accumulates delta, fires C_VOL_UP or C_VOL_DN, then remaps
+     * event->code to INPUT_REL_MISC so handle_rel_code() in the listener
+     * ignores it — no cursor movement, no remainder bleed between layers.
+     *
+     * On REL_X: also remapped to INPUT_REL_MISC, suppressing horizontal
+     * cursor movement on the volume layer.
+     *
+     * No separate zeroing processor needed in the overlay — suppression is
+     * handled inside the module, the same way zip_xy_to_scroll_mapper works.
+     *
+     * y-invert: inverts volume Y independently of the device-level invert-y.
      */
     zip_vol: zip_vol {
         compatible = "zmk,input-processor-volume";
@@ -121,18 +108,12 @@
 							   <&y-invert>;
         };
 
-        /*
-         * Layer 2 — volume only.
-         *
-         * zip_xy_nullifier zeros both REL_X and REL_Y (no track-remainders
-         * so no bleed from other layers), then zip_vol intercepts REL_Y
-         * and fires volume keycodes, returning ZMK_INPUT_PROC_STOP so the
-         * zeroed REL_Y never reaches the HID accumulator either.
-         * REL_X is zeroed and falls through to handle_rel_code with value=0.
-         */
+        /* Layer 2 — volume only.
+         * zip_vol remaps both axes to REL_MISC internally after consuming
+         * REL_Y for volume — no cursor movement, no extra processors needed. */
         volume {
             layers = <2>;
-            input-processors = <&zip_xy_nullifier 0 1>, <&zip_vol>;
+            input-processors = <&zip_vol>;
         };
     };
 };
