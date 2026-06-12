@@ -65,8 +65,7 @@
          * CONFIG_PMW3610_INO_INVERT_X.  swap-xy rotates 90°, invert-x
          * then matches the original INVERT_X flag. */
         swap-xy;
-        invert-x;
-        y-invert; 
+        invert-xy;
 
         /* Axis event codes — required by badjeff driver */
         evt-type = <INPUT_EV_REL>;
