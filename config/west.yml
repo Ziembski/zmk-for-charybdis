@@ -15,9 +15,13 @@ manifest:
       remote: badjeff
       revision: main
     - name: zmk-input-processor-volume  # custom volume processor module
-      remote: Ziembski    # ← replace with your GitHub username
+      remote: Ziembski   
       revision: main
       path: zmk-input-processor-volume
+    - name: peahen-calling              
+      remote: your-github-username
+      revision: main
+      path: modules/peahen-calling
 
   self:
     path: config
