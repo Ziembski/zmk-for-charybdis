@@ -19,7 +19,7 @@ manifest:
       revision: main
       path: zmk-input-processor-volume
     - name: peahen-calling              
-      remote: your-github-username
+      remote: Ziembski
       revision: main
       path: modules/peahen-calling
 
