@@ -127,6 +127,36 @@
             bindings = <&tog 4>;
             key-positions = <19 20 21 22>;
         };
+
+        bt0 {
+            bindings = <&bt0>;
+            key-positions = <38 39 19>;
+        };
+
+        bt1 {
+            bindings = <&bt1>;
+            key-positions = <38 39 20>;
+        };
+
+        bt2 {
+            bindings = <&bt2>;
+            key-positions = <38 39 21>;
+        };
+
+        usb0 {
+            bindings = <&usb0>;
+            key-positions = <38 39 7>;
+        };
+
+        usb1 {
+            bindings = <&usb1>;
+            key-positions = <38 39 8>;
+        };
+
+        usb2 {
+            bindings = <&usb2>;
+            key-positions = <38 39 9>;
+        };
     };
 
     macros {
@@ -184,6 +214,48 @@
             #binding-cells = <0>;
             bindings = <&sk LEFT_WIN &kp L>;
             label = "LOGOUT";
+        };
+
+        bt0: bt0 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&out OUT_BLE &bt BT_SEL 0>;
+            label = "BT0";
+        };
+
+        bt1: bt1 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&out OUT_BLE &bt BT_SEL 1>;
+            label = "BT1";
+        };
+
+        bt2: bt2 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&out OUT_BLE &bt BT_SEL 2>;
+            label = "BT2";
+        };
+
+        usb0: usb0 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&out OUT_USB &bt BT_SEL 0>;
+            label = "USB0";
+        };
+
+        usb1: usb1 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&out OUT_USB &bt BT_SEL 1>;
+            label = "USB1";
+        };
+
+        usb2: usb2 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&out OUT_USB &bt BT_SEL 2>;
+            label = "USB2";
         };
     };
 
