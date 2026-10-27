@@ -137,6 +137,11 @@
             bindings = <&mo 1>;
             key-positions = <32 33 34 31>;
         };
+
+        Android {
+            bindings = <&tog 5>;
+            key-positions = <1 3 2 4>;
+        };
     };
 
     macros {
@@ -195,48 +200,6 @@
             bindings = <&sk LEFT_WIN &kp L>;
             label = "LOGOUT";
         };
-
-        bt0: bt0 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&out OUT_BLE &bt BT_SEL 0>;
-            label = "BT0";
-        };
-
-        bt1: bt1 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&out OUT_BLE &bt BT_SEL 1>;
-            label = "BT1";
-        };
-
-        bt2: bt2 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&out OUT_BLE &bt BT_SEL 2>;
-            label = "BT2";
-        };
-
-        usb0: usb0 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&out OUT_USB &bt BT_SEL 0>;
-            label = "USB0";
-        };
-
-        usb1: usb1 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&out OUT_USB &bt BT_SEL 1>;
-            label = "USB1";
-        };
-
-        usb2: usb2 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&out OUT_USB &bt BT_SEL 2>;
-            label = "USB2";
-        };
     };
 
     keymap {
@@ -265,7 +228,7 @@
         NAV {
             display-name = "Nav";
             bindings = <
-&kp LEFT_ALT      &kp HOME  &kp LC(PAGE_UP)  &kp UP    &kp LC(PAGE_DOWN)  &kp PAGE_UP      &none             &kp F1          &kp F2   &kp F3   &kp F4   &kp SCROLLLOCK
+&kp LEFT_ALT      &kp HOME  &kp LC(PAGE_UP)  &kp UP    &kp LC(PAGE_DOWN)  &kp PAGE_UP      &kp LEFT_GUI      &kp F1          &kp F2   &kp F3   &kp F4   &kp SCROLLLOCK
 &kp LEFT_SHIFT    &kp END   &kp LEFT         &kp DOWN  &kp RIGHT          &kp PAGE_DOWN    &kp LEFT_SHIFT    &kp F5          &kp F6   &kp F7   &kp F8   &kp PAUSE_BREAK
 &sk LEFT_CONTROL  &mid      &xlookup         &sumifs   &countif           &kp LS(LG(S))    &kp LEFT_CONTROL  &kp F9          &kp F10  &kp F11  &kp F12  &kp INS
                                              &td1      &bt BT_SEL 1       &none            &kp LEFT_CONTROL  &kp LEFT_SHIFT
@@ -288,6 +251,16 @@
 &trans  &trans  &trans  &trans  &trans  &trans    &trans          &trans      &trans  &trans  &trans  &sys_reset
 &trans  &trans  &trans  &trans  &trans  &trans    &trans          &trans      &trans  &trans  &trans  &out OUT_TOG
                         &trans  &trans  &trans    &bt BT_CLR_ALL  &bt BT_CLR
+            >;
+        };
+
+        Android {
+            display-name = "Android";
+            bindings = <
+&kp TAB           &kp U  &kp Q  &kp W     &kp E      &kp R      &trans   &trans    &trans        &trans    &trans   &trans
+&kp LEFT_SHIFT    &kp J  &kp A  &kp S     &kp D      &kp F      &trans   &kp N1    &kp N2        &kp N3    &kp N4   &trans
+&kp LEFT_CONTROL  &kp K  &kp Z  &kp X     &kp C      &kp V      &trans   &mkp MB1  &kp PL_COMMA  &kp FSLH  &kp DOT  &kp ESC
+                                &kp LALT  &kp SPACE  &kp RET    &kp ESC  &trans
             >;
         };
     };
