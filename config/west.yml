@@ -18,10 +18,6 @@ manifest:
       remote: Ziembski   
       revision: main
       path: zmk-input-processor-volume
-    - name: Peahen-Calling-for-ZMK          
-      remote: Ziembski
-      revision: main
-      path: modules/peahen-calling
 
   self:
     path: config
